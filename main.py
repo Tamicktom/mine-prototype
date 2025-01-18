@@ -10,12 +10,20 @@ def look_right_90deg():
   pyautogui.moveRel(57, 0, duration=1) # 89.7deg
   pyautogui.moveRel(2, 0, duration=0.2)
   pyautogui.moveRel(-1, 0, duration=0.35)
+  
+def look_right_45deg():
+  print("Olhar um pouco para a direita")
+  pyautogui.moveRel(107, 0, duration=0.25)
 
 def look_left_90deg():
   print("Olhar para a esquerda")
   pyautogui.moveRel(-57, 0, duration=1) # 89.7deg
   pyautogui.moveRel(-2, 0, duration=0.2)
   pyautogui.moveRel(1, 0, duration=0.35)
+
+def look_left_45deg():
+  print("Olhar um pouco para a direita")
+  pyautogui.moveRel(-107, 0, duration=0.25)
 
 def look_back():
   print("Olhar para trás")
@@ -43,8 +51,12 @@ pyautogui.press('esc')
 reset_camera_position()
 time.sleep(0.3)
 
-look_back()
+look_right_45deg()
 time.sleep(0.5)
+
+reset_camera_position()
+time.sleep(0.3)
+look_left_45deg()
 
 # 1 = 1.5deg
 
