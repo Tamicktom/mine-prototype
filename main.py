@@ -27,6 +27,14 @@ def look_left_45deg():
   print("Olhar um pouco para a direita")
   pyautogui.moveRel(-107, 0, duration=0.25)
 
+def look_down_45deg():
+  print("Olhar um pouco para baixo")
+  pyautogui.moveRel(0, 107, duration=0.25)
+
+def look_up_45deg():
+  print("Olhar um pouco para cima")
+  pyautogui.moveRel(0, -107, duration=0.25)
+
 def look_back():
   print("Olhar para trás")
   pyautogui.moveRel(114, 0, duration=1)
@@ -37,6 +45,24 @@ def walk_forward(hold_time=1):
   pyautogui.keyDown('w')
   time.sleep(hold_time)
   pyautogui.keyUp('w')
+
+def walk_backward(hold_time=1):
+  print("Andar para trás")
+  pyautogui.keyDown('s')
+  time.sleep(hold_time)
+  pyautogui.keyUp('s')
+
+def walk_left(hold_time=1):
+  print("Andar para a esquerda")
+  pyautogui.keyDown('a')
+  time.sleep(hold_time)
+  pyautogui.keyUp('a')
+
+def walk_right(hold_time=1):
+  print("Andar para a direita")
+  pyautogui.keyDown('d')
+  time.sleep(hold_time)
+  pyautogui.keyUp('d')
 
 def keep_swimming():
   print("Manter nadando")
@@ -79,6 +105,18 @@ class SwimmingController:
             self.swimming_thread.join()
         print("Parou de nadar")
 
+def attack():
+  print("Atacar")
+  pyautogui.leftClick()
+
+def place_or_use():
+  print("Colocar ou usar")
+  pyautogui.rightClick()
+
+def clone_block():
+  print("Clonar bloco")
+  pyautogui.click(button="middle")
+
 # reset mouse to 100, 100
 print("Movimento inicial")
 pyautogui.moveTo(100, 100)
@@ -92,21 +130,13 @@ pyautogui.press('esc')
 reset_camera_position()
 time.sleep(0.3)
 
-walk_forward()
-time.sleep(0.5)
-
-look_right_90deg()
-walk_forward()
-look_right_90deg()
-walk_forward()
-look_right_90deg()
-walk_forward()
-look_right_90deg()
-
-walk_forward(2)
-swimming.start_swimming()
-walk_forward(10)
-swimming.stop_swimming()
+look_down_45deg()
+clone_block()
+place_or_use()
+walk_right(0.125)
+place_or_use()
+look_right_45deg()
+look_up_45deg()
 
 # 1 = 1.5deg
 
