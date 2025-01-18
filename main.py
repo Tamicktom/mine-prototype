@@ -2,6 +2,18 @@ import pyautogui
 import time
 import threading
 from typing import Optional
+from dotenv import load_dotenv
+import os
+from PIL import ImageGrab
+import base64
+import json
+
+from openai import OpenAI
+
+# load the .env file variables
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Configuração de segurança - pausa entre movimentos e para de executar se o mouse for para os cantos
 pyautogui.FAILSAFE = True
@@ -117,6 +129,25 @@ def clone_block():
   print("Clonar bloco")
   pyautogui.click(button="middle")
 
+def open_inventory():
+  print("Abrir inventário")
+  pyautogui.press('e')
+
+def print_screenshot():
+  # Capture the screenshot
+  screenshot = ImageGrab.grab(bbox=(0, 30, 1280, 1030))
+  
+  # Save the screenshot to a file
+  screenshot.save("screenshot.png")
+  
+  # Print the screenshot
+  screenshot.close()
+
+# Function to encode the image
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode("utf-8")
+
 # reset mouse to 100, 100
 print("Movimento inicial")
 pyautogui.moveTo(100, 100)
@@ -130,14 +161,72 @@ pyautogui.press('esc')
 reset_camera_position()
 time.sleep(0.3)
 
-look_down_45deg()
-clone_block()
-place_or_use()
-walk_right(0.125)
-place_or_use()
-look_right_45deg()
-look_up_45deg()
 
-# 1 = 1.5deg
+# print_screenshot()
 
-# testing
+# base64_image = encode_image("screenshot.png")
+
+# tools = [{
+#   "type": "function",
+#   "function": {
+#     "name" : "look_right_90deg",
+#     "description": "Look right 90 degrees",
+#     "parameters": {}
+#   }
+# },{
+#   "type": "function",
+#   "function": {
+#     "name" : "look_left_90deg",
+#     "description": "Look left 90 degrees",
+#     "parameters": {}
+#   }
+# },
+# {
+#   "type": "function",
+#   "function" : {
+#     "name": "open_inventory",
+#     "description": "Open the inventory to see what you have",
+#     "parameters": {}
+#   }
+# }
+# ]
+
+# messages = [
+#   {
+#     "role": "user",
+#     "content": [
+#       {
+#         "type": "text",
+#         "text": "You are playing Minecraft. Control and use the tools.",
+#       },
+#       {
+#         "type": "image_url",
+#         "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+#       },
+#     ],
+#   }
+# ]
+
+# response = client.chat.completions.create(
+#     model="gpt-4o-mini",
+#     messages=messages,
+#     tools=tools,
+# )
+
+# def call_function(name, args):
+#   if name == "look_right_90deg":
+#       return look_right_90deg(**args)
+#   if name == "look_left_90deg":
+#       return look_left_90deg(**args)
+#   if name == "open_inventory":
+#       return open_inventory(**args)
+
+# for tool_call in response.choices[0].message.tool_calls:
+#   name = tool_call.function.name
+#   args = json.loads(tool_call.function.arguments)
+
+#   result = call_function(name, args)
+
+# used_tools = []
+
+# print(response.choices[0])
